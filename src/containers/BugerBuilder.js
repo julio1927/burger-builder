@@ -92,7 +92,8 @@ class BugerBuilder extends Component {
                 <BuildControls
                     ingredientAdded={this.addIngridentHandler}
                     removeIngredient={this.removeIngridentHandler}
-                    disabled={disabledInfo} />
+                    disabled={disabledInfo} 
+                    price={this.state.totalPrice}/>
             </Aux>
         );
     }
