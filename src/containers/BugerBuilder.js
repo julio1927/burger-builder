@@ -31,7 +31,19 @@ class BugerBuilder extends Component {
             cheese: 0,
             meat: 0
         },
-        totalPrice: 3
+        totalPrice: 3,
+        purchasable: false
+    }
+
+
+    updatePurchaseState (ingredients) {
+        const sum = Object.keys(ingredients).map(
+            igKey => {
+                return ingredients[igKey]
+        }).reduce((sum, el) => {
+            return sum + el;
+        },0);
+        this.setState({purchasable: sum > 0});
     }
 
     addIngridentHandler = (type) => {
@@ -50,6 +62,7 @@ class BugerBuilder extends Component {
         const newPrice = oldPrice + addPrice;
 
         this.setState({totalPrice: newPrice, ingredients: updatedIngridents});
+        this.updatePurchaseState(updatedIngridents);
     }
 
     removeIngridentHandler = (type) => {
@@ -74,6 +87,7 @@ class BugerBuilder extends Component {
         const newPrice = oldPrice - deductPrice;
 
         this.setState({totalPrice: newPrice, ingredients: updatedIngridents});
+        this.updatePurchaseState(updatedIngridents);
     }
 
     render () {
@@ -93,7 +107,8 @@ class BugerBuilder extends Component {
                     ingredientAdded={this.addIngridentHandler}
                     removeIngredient={this.removeIngridentHandler}
                     disabled={disabledInfo} 
-                    price={this.state.totalPrice}/>
+                    price={this.state.totalPrice}
+                    purchasable={this.state.purchasable}/>
             </Aux>
         );
     }
