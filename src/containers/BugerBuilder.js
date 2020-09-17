@@ -34,7 +34,8 @@ class BugerBuilder extends Component {
             meat: 0
         },
         totalPrice: 3,
-        purchasable: false
+        purchasable: false,
+        purchasing: false
     }
 
 
@@ -92,6 +93,14 @@ class BugerBuilder extends Component {
         this.updatePurchaseState(updatedIngridents);
     }
 
+    purchaseHandler = () => {
+        this.setState({purchasing: true});
+    }
+
+    purchaseCancelHandler = () => {
+        this.setState({purchasing: false});
+    }
+
     render () {
 
         const disabledInfo = {
@@ -101,10 +110,10 @@ class BugerBuilder extends Component {
         for(let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key] <= 0
         }
-
+        // Modal should only show when purchasing is true 
         return (
             <Aux>
-                <Modal>
+                <Modal show={this.state.purchasing} closeModal={this.purchaseCancelHandler}> 
                     <OrderSummary ingredients={this.state.ingredients}/>
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
@@ -113,6 +122,7 @@ class BugerBuilder extends Component {
                     removeIngredient={this.removeIngridentHandler}
                     disabled={disabledInfo} 
                     price={this.state.totalPrice}
+                    ordered={this.purchaseHandler}
                     purchasable={this.state.purchasable}/>
             </Aux>
         );
