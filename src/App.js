@@ -12,7 +12,7 @@
 */
 
 import React, { Component } from 'react';
-import Layout from './components/Layout';
+import Layout from './components/Layout/Layout';
 import BugerBuilder from './containers/BugerBuilder';
 
 class App extends Component {
