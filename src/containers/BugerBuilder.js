@@ -15,6 +15,7 @@ import Burger from '../components/Burger/Burger';
 import BuildControls from '../components/Burger/BuildControls/BuildControls';
 import Modal from '../components/UI/Modal/Modal';
 import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../src/axios-order';
 
 // dollar prices of ingredients 
 const INGREDIENT_PRICES = {
@@ -102,7 +103,31 @@ class BugerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        alert('Continued');
+        //alert('Continued');
+        // for now order is dummy order 
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,
+            customerData: {
+                name: 'Julio Rivas',
+                address: {
+                    street: 'TestStreet 1',
+                    postalCode: 'N1A 1A1',
+                    country: 'Canada'
+                },
+                email: 'test@test.com'
+            },
+            deliveryMethod: 'fastest'
+        }
+
+        //sending dummy order 
+        axios.post('/orders.json', order)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log('Error Msg:' + error);
+        });
     }
 
     render () {
