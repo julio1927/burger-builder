@@ -11,14 +11,20 @@ const withErrorHandler = (WrappedComponent, axios) => {
 
         componentWillMount () { 
             // clearing any errors when sending a request
-            axios.interceptors.request.use(req => {
+            this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState( {error: null} );
                 return req;
             })
             //handling error(s)
-            axios.interceptors.response.use(res => res, error => {
+            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
                 this.setState( {error: error} );
             });
+        }
+
+        //removing interceptors so that withErrorHandler component can be used on multiple components with multiple pages (prevents memory leaks)
+        componentWillUnmount () {
+            axios.interceptors.request.eject(this.reqInterceptor);
+            axios.interceptors.request.eject(this.resInterceptor);
         }
 
         // clearing error to null for backdrop 
