@@ -16,6 +16,7 @@ import BuildControls from '../components/Burger/BuildControls/BuildControls';
 import Modal from '../components/UI/Modal/Modal';
 import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../src/axios-order';
+import Spinner from '../components/UI/Spinner/Spinner';
 
 // dollar prices of ingredients 
 const INGREDIENT_PRICES = {
@@ -36,7 +37,8 @@ class BugerBuilder extends Component {
         },
         totalPrice: 3,
         purchasable: false,
-        purchasing: false
+        purchasing: false,
+        loading: false
     }
 
 
@@ -105,6 +107,8 @@ class BugerBuilder extends Component {
     purchaseContinueHandler = () => {
         //alert('Continued');
         // for now order is dummy order 
+        this.setState( {loading: true} );
+        
         const order = {
             ingredients: this.state.ingredients,
             price: this.state.totalPrice,
@@ -123,9 +127,10 @@ class BugerBuilder extends Component {
         //sending dummy order 
         axios.post('/orders.json', order)
         .then(response => {
-            console.log(response);
+            this.setState( {loading: false, purchasing: false} );
         })
         .catch(error => {
+            this.setState( {loading: false, purchasing: false} );
             console.log('Error Msg:' + error);
         });
     }
@@ -139,15 +144,22 @@ class BugerBuilder extends Component {
         for(let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key] <= 0
         }
+
+        let orderSummary = <OrderSummary 
+                            purchaseCancelled={this.purchaseCancelHandler}
+                            price={this.state.totalPrice}
+                            purchaseContinued={this.purchaseContinueHandler}
+                            ingredients={this.state.ingredients}/>;
+
+        if (this.state.loading) {
+            orderSummary = <Spinner />;
+        }
+
         // Modal should only show when purchasing is true 
         return (
             <Aux>
                 <Modal show={this.state.purchasing} closeModal={this.purchaseCancelHandler}> 
-                    <OrderSummary 
-                        purchaseCancelled={this.purchaseCancelHandler}
-                        price={this.state.totalPrice}
-                        purchaseContinued={this.purchaseContinueHandler}
-                        ingredients={this.state.ingredients}/>
+                    {orderSummary}
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
