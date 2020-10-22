@@ -17,6 +17,7 @@ import Modal from '../components/UI/Modal/Modal';
 import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../src/axios-order';
 import Spinner from '../components/UI/Spinner/Spinner';
+import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
 
 // dollar prices of ingredients 
 const INGREDIENT_PRICES = {
@@ -108,7 +109,7 @@ class BugerBuilder extends Component {
         //alert('Continued');
         // for now order is dummy order 
         this.setState( {loading: true} );
-        
+
         const order = {
             ingredients: this.state.ingredients,
             price: this.state.totalPrice,
@@ -174,4 +175,4 @@ class BugerBuilder extends Component {
     }
 }
 
-export default BugerBuilder;
+export default withErrorHandler(BugerBuilder, axios);
