@@ -7,10 +7,12 @@ This project is currently in development.The user can create a burger by adding 
 
 ### Project Screen Shot(s)
 
-[ SCREEN SHOT IS HERE ]
+#### Burger Builder Homepage
+<img alt="HomePage" src="images/HomePageBurgerBuilder.png" width="700"/>
 
-[ OTHER SCREEN SHOT IS HERE ]
 
+#### Burger Builder Building Burger
+<a href="https://imgur.com/M2zWlA6"><img alt="Building Burger" src="https://i.imgur.com/M2zWlA6.gif" title="source: imgur.com" /></a>
 
 ### To do 
 - Implement check out page using routing.
