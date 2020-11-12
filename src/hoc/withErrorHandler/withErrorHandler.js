@@ -21,7 +21,9 @@ const withErrorHandler = (WrappedComponent, axios) => {
             });
         }
 
-        //removing interceptors so that withErrorHandler component can be used on multiple components with multiple pages (prevents memory leaks)
+        //removing old interceptors so that withErrorHandler component can be used 
+        //on multiple components with multiple pages without creating new ones each time 
+        //(prevents memory leaks)
         componentWillUnmount () {
             axios.interceptors.request.eject(this.reqInterceptor);
             axios.interceptors.request.eject(this.resInterceptor);
